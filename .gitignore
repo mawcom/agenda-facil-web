@@ -1,0 +1,18 @@
+# Segredos e configurações locais
+.env
+.env.*
+!.env.example
+
+# Dependências e saídas geradas
+node_modules/
+coverage/
+dist/
+build/
+
+# Banco local e arquivos temporários
+*.sqlite
+*.sqlite3
+*.db
+*.log
+.DS_Store
+Thumbs.db
