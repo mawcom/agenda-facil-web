@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#173c35">
+    <title>Agenda Fácil</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/client.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Agenda Fácil, início">
+        <span class="brand-mark" aria-hidden="true">AF</span>
+        <span><strong>Agenda Fácil</strong><small>Agenda da barbearia</small></span>
+      </a>
+      <div class="topbar-right"><span class="local-badge"><span></span> Acesso local</span><span id="account-email" class="account-email" hidden></span><button class="text-button" id="logout-button" hidden>Sair</button></div>
+    </header>
+
+    <main class="page-shell">
+      <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+      <section id="auth-screen" class="auth-layout" aria-labelledby="auth-title">
+        <div class="auth-intro">
+          <p class="eyebrow">AGENDA FÁCIL</p>
+          <h1 id="auth-title">Sua rotina, mais organizada.</h1>
+          <p class="subtitle">Entre para consultar seus horários ou administrar a agenda da barbearia.</p>
+          <div class="auth-perks"><span>✓ Horários organizados</span><span>✓ Acesso separado para cliente e barbeiro</span><span>✓ Seus dados ficam nesta instalação local</span></div>
+        </div>
+
+        <section class="panel auth-panel">
+          <div class="portal-tabs" role="tablist" aria-label="Escolha seu acesso">
+            <button id="client-tab" class="portal-tab active" type="button" role="tab" aria-selected="true">Sou cliente</button>
+            <button id="barber-tab" class="portal-tab" type="button" role="tab" aria-selected="false">Sou barbeiro</button>
+          </div>
+
+          <div id="client-auth-view" class="auth-view">
+            <h2>Entrar como cliente</h2>
+            <p class="auth-copy">Use seu e-mail e senha para acompanhar seus horários.</p>
+            <form id="client-login-form" class="form-stack">
+              <label>E-mail<input name="email" type="email" maxlength="254" autocomplete="email" placeholder="voce@email.com" required></label>
+              <label>Senha<input name="password" type="password" minlength="5" maxlength="200" autocomplete="current-password" required></label>
+              <button class="button button-primary button-wide" type="submit">Entrar</button>
+            </form>
+            <details class="signup-details">
+              <summary>Primeiro acesso? Criar conta de cliente</summary>
+              <form id="client-register-form" class="form-stack signup-form">
+                <label>Seu nome<input name="name" maxlength="100" autocomplete="name" required></label>
+                <label>Telefone<input name="phone" type="tel" inputmode="numeric" maxlength="16" data-phone autocomplete="tel" placeholder="(11) 99999-9999" required></label>
+                <label>E-mail<input name="email" type="email" maxlength="254" autocomplete="email" placeholder="voce@email.com" required></label>
+                <label>Crie uma senha<input name="password" type="password" minlength="5" maxlength="200" autocomplete="new-password" required><small class="field-hint">Use pelo menos 5 caracteres.</small></label>
+                <button class="button button-secondary button-wide" type="submit">Criar conta e entrar</button>
+              </form>
+            </details>
+          </div>
+
+          <div id="barber-auth-view" class="auth-view" hidden>
+            <h2>Entrar como barbeiro</h2>
+            <p class="auth-copy">Acesse o painel para organizar clientes, serviços e horários.</p>
+            <form id="barber-login-form" class="form-stack">
+              <label>E-mail<input name="email" type="email" maxlength="254" autocomplete="username" placeholder="barbearia@email.com" required></label>
+              <label>Senha<input name="password" type="password" minlength="5" maxlength="200" autocomplete="current-password" required></label>
+              <button class="button button-primary button-wide" type="submit">Entrar no painel</button>
+            </form>
+            <details id="barber-setup-details" class="signup-details">
+              <summary>Primeira vez? Criar a conta principal</summary>
+              <p class="field-hint setup-note">Use esta opção somente para criar a primeira conta. Se já existe uma conta, entre pelo formulário acima.</p>
+              <form id="barber-setup-form" class="form-stack signup-form">
+                <label>E-mail<input name="email" type="email" maxlength="254" autocomplete="email" required></label>
+                <label>Crie uma senha<input name="password" type="password" minlength="5" maxlength="200" autocomplete="new-password" required><small class="field-hint">Use pelo menos 5 caracteres.</small></label>
+                <button class="button button-secondary button-wide" type="submit">Criar conta do barbeiro</button>
+              </form>
+            </details>
+          </div>
+        </section>
+      </section>
+
+      <section id="barber-screen" hidden>
+        <section class="welcome-row" aria-labelledby="barber-title">
+          <div><p class="eyebrow">PAINEL DO BARBEIRO</p><h1 id="barber-title">Sua agenda, em ordem.</h1><p class="subtitle">Cadastre clientes e serviços, depois organize os atendimentos do dia.</p></div>
+          <div class="date-card"><label for="agenda-date">Visualizar dia</label><input id="agenda-date" type="date"></div>
+        </section>
+
+        <section class="summary-grid" aria-label="Resumo da agenda">
+          <article class="summary-card"><span class="summary-icon">◷</span><div><span class="summary-label">Atendimentos ativos</span><strong id="summary-count">0</strong></div></article>
+          <article class="summary-card"><span class="summary-icon">✓</span><div><span class="summary-label">Concluídos</span><strong id="summary-completed">0</strong></div></article>
+          <article class="summary-card"><span class="summary-icon">＋</span><div><span class="summary-label">Clientes cadastrados</span><strong id="summary-clients">0</strong></div></article>
+        </section>
+
+        <section class="content-grid">
+          <article class="panel schedule-panel">
+            <div class="panel-heading"><div><p class="eyebrow">HORÁRIOS</p><h2>Agenda do dia</h2></div><button class="button button-primary" id="open-booking">+ Agendar</button></div>
+            <ol id="appointment-list" class="appointment-list" aria-live="polite"></ol>
+            <div id="empty-agenda" class="empty-state" hidden><span aria-hidden="true">◷</span><strong>Agenda livre por enquanto</strong><p>Quando você criar um agendamento, ele aparecerá aqui.</p></div>
+          </article>
+
+          <aside class="side-column">
+            <article class="panel form-panel" id="booking-panel">
+              <div class="panel-heading compact"><div><p class="eyebrow">NOVO HORÁRIO</p><h2>Agendar atendimento</h2></div></div>
+              <form id="booking-form" class="form-stack">
+                <label>Dia do atendimento<input name="date" id="booking-date" type="date" required></label>
+                <label>Cliente<select name="clientId" id="booking-client" required><option value="">Selecione um cliente</option></select></label>
+                <label>Serviço<select name="serviceId" id="booking-service" required><option value="">Selecione um serviço</option></select></label>
+                <fieldset class="booking-time-fieldset">
+                  <legend>Horários disponíveis</legend>
+                  <div id="booking-times" class="booking-time-grid" role="group" aria-label="Horários disponíveis"></div>
+                  <p id="booking-time-message" class="field-hint" aria-live="polite">Escolha o dia e o serviço para ver os horários.</p>
+                  <input name="time" id="booking-time" type="hidden" required>
+                </fieldset>
+                <small class="field-hint">Atendimentos das 08:00 às 18:00, com intervalo de 10 minutos entre eles.</small>
+                <p class="field-hint" id="booking-summary">Escolha um serviço para ver a duração e o preço.</p>
+                <button class="button button-primary button-wide" type="submit">Confirmar agendamento</button>
+              </form>
+            </article>
+
+            <article class="panel form-panel">
+              <div class="panel-heading compact"><div><p class="eyebrow">CADASTRO</p><h2>Novo cliente</h2></div></div>
+              <form id="client-form" class="form-stack">
+                <label>Nome<input name="name" maxlength="100" autocomplete="name" placeholder="Ex.: Ana Souza" required></label>
+                <label>Telefone<input name="phone" type="tel" inputmode="numeric" maxlength="16" data-phone autocomplete="tel" placeholder="(11) 99999-9999" required></label>
+                <label>E-mail do cliente<input name="email" type="email" maxlength="254" autocomplete="email" placeholder="cliente@email.com" required></label>
+                <small class="field-hint">O e-mail permite que o cliente crie a conta e veja os próprios horários.</small>
+                <button class="button button-secondary button-wide" type="submit">Salvar cliente</button>
+              </form>
+              <div class="mini-list-wrap"><h3>Clientes recentes</h3><ul id="client-list" class="mini-list"></ul></div>
+            </article>
+
+            <article class="panel form-panel">
+              <div class="panel-heading compact"><div><p class="eyebrow">CARDÁPIO</p><h2>Novo serviço</h2></div></div>
+              <form id="service-form" class="form-stack">
+                <label>Nome do serviço<input name="name" maxlength="100" placeholder="Ex.: Corte tradicional" required></label>
+                <div class="two-fields">
+                  <label>Valor do corte<input name="price" type="text" inputmode="numeric" data-money autocomplete="off" placeholder="R$ 0,00" required></label>
+                  <label>Duração (min)<input name="durationMinutes" type="number" min="1" step="1" placeholder="30" required></label>
+                </div>
+                <button class="button button-secondary button-wide" type="submit">Salvar serviço</button>
+              </form>
+              <div class="mini-list-wrap"><h3>Serviços ativos</h3><ul id="service-list" class="mini-list"></ul></div>
+            </article>
+          </aside>
+        </section>
+      </section>
+
+      <section id="client-screen" class="client-screen" hidden aria-labelledby="client-title">
+        <section class="welcome-row"><div><p class="eyebrow">ÁREA DO CLIENTE</p><h1 id="client-title">Seus horários.</h1><p class="subtitle">Aqui você acompanha os atendimentos ligados à sua conta.</p></div><div class="date-card"><span class="date-label">Conta</span><strong id="client-email-label"></strong></div></section>
+        <article class="panel client-appointments-panel">
+          <div class="panel-heading"><div><p class="eyebrow">SEUS ATENDIMENTOS</p><h2>Agenda e histórico</h2></div></div>
+          <ol id="client-appointment-list" class="appointment-list"></ol>
+          <div id="empty-client-agenda" class="empty-state" hidden><span aria-hidden="true">◷</span><strong>Você ainda não tem horários</strong><p>Peça à barbearia para cadastrar um agendamento com seu e-mail.</p></div>
+        </article>
+      </section>
+
+      <footer class="page-footer">Agenda Fácil <span>•</span> Projeto acadêmico em desenvolvimento</footer>
+    </main>
+  </body>
+</html>

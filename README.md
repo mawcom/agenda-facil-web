@@ -1,50 +1,39 @@
 # Agenda Fácil
 
-Projeto acadêmico de Desenvolvimento Web para organizar os agendamentos de uma barbearia atendida por um único profissional.
+Aplicação web acadêmica para organizar a agenda de uma barbearia com um único profissional. O barbeiro administra clientes, serviços e agendamentos. Clientes podem criar uma conta e consultar seus próprios horários.
 
-> **Situação:** planejamento. Esta base documenta uma proposta de MVP; não há aplicação funcional implementada. O problema e as decisões ainda precisam ser validados com um estabelecimento e com a equipe.
+## Tecnologias
 
-## Objetivo
+- HTML e CSS responsivos.
+- TypeScript no navegador e no servidor.
+- Node.js com os módulos nativos `node:http` e `node:sqlite`.
+- SQLite para persistência local.
 
-Explorar uma forma simples de consultar e administrar clientes, serviços e horários, reduzindo o risco de conflitos que podem ocorrer quando a agenda é controlada por mensagens e anotações. Essa descrição é uma hipótese de projeto, não um problema já validado.
+## Requisitos
 
-## Escopo proposto para o MVP
+- Node.js 22.13 ou superior (recomendado: Node.js 24).
+- npm.
 
-- Login e encerramento de sessão do responsável.
-- Cadastro, consulta e edição de clientes e serviços.
-- Criação e consulta de agendamentos por data.
-- Cancelamento e conclusão de atendimentos.
-- Validação de horários, expediente e conflitos no servidor.
-- Persistência de dados em banco.
+## Executar no Windows
 
-Pagamentos, integração com WhatsApp, autoagendamento pelo cliente, aplicativo móvel, múltiplos profissionais e reagendamento ficam fora da proposta inicial.
+1. Abra o PowerShell nesta pasta.
+2. Execute `npm install` uma vez.
+3. Execute `npm run dev`.
+4. Acesse http://localhost:3000.
 
-## Tecnologias em avaliação
+O comando compila o TypeScript e inicia o servidor. O banco é criado automaticamente em `database/agenda-facil.sqlite`; esse arquivo não deve ser enviado ao Git.
 
-HTML, CSS e JavaScript no frontend; Node.js com Express no backend; SQLite no banco; Figma ou ferramenta similar para prototipação; Git e GitHub para versionamento. A equipe pode ajustar as escolhas conforme o conteúdo da disciplina.
+## Arquitetura e manual
 
-## Estrutura
-
-- `docs/`: proposta, backlog, cronograma, protótipo e arquitetura.
-- `frontend/`: reservado à interface.
-- `backend/`: reservado à API e regras de negócio.
-- `database/`: reservado ao esquema e arquivos de desenvolvimento do banco.
-- `tests/`: reservado aos testes.
-
-As pastas de implementação estão vazias nesta etapa. Não há dependências, servidor, telas funcionais, banco de dados ou testes automatizados.
-
-## Como executar
-
-Ainda não há aplicação para executar. As instruções serão atualizadas quando a implementação começar.
-
-## Equipe e entregas
-
-Integrantes, turma, responsáveis, quadro de tarefas e link do protótipo ainda precisam ser definidos pela equipe. Consulte [`docs/03-cronograma-e-equipe.md`](docs/03-cronograma-e-equipe.md).
-
-## Configuração e segurança
-
-Use `.env.example` apenas como referência para futuras variáveis. Não inclua senhas, tokens, credenciais ou dados pessoais reais no repositório. Os dados de desenvolvimento devem ser fictícios.
+Consulte [`docs/06-manual-do-projeto.md`](docs/06-manual-do-projeto.md) para conhecer os módulos, regras de negócio, exemplos de TypeScript e os passos para organizar o quadro Jira.
 
 ## Limitações atuais
 
-Esta entrega contém apenas documentação inicial. O problema ainda não foi validado com um estabelecimento, expediente e fuso horário não foram definidos, e nenhuma funcionalidade descrita está implementada.
+- O login usa e-mail e senha; o cadastro não envia confirmação por e-mail. Use apenas para demonstração local, não publique na internet.
+- Clientes e serviços podem ser cadastrados e consultados, mas ainda não editados/excluídos.
+- A agenda permite criar, cancelar e concluir atendimentos, valida conflitos e impede agendamentos no passado.
+- O calendário oferece horários das 08:00 às 18:00 em intervalos de 10 minutos, respeitando a duração do serviço e a folga entre atendimentos. Dias de funcionamento e fuso próprio ainda precisam ser definidos.
+- Ainda faltam testes automatizados e validação com um estabelecimento real.
+- Use apenas dados fictícios.
+
+O quadro Jira, responsáveis, turma e link de protótipo ainda precisam ser definidos pela equipe.
