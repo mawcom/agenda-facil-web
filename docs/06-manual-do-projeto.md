@@ -13,6 +13,8 @@ O Agenda Fácil é um sistema local para uma barbearia com um profissional. O ba
 5. Abra `http://localhost:3000` no navegador.
 6. Para parar, volte ao terminal e pressione `Ctrl+C`.
 
+O servidor escuta em todas as interfaces (`0.0.0.0`), então não fica limitado ao `localhost`. Para acessar de outro dispositivo na mesma rede Wi-Fi, use um dos endereços mostrados no terminal depois de `Acesso na rede local`. Se o Firewall do Windows bloquear, permita o Node.js ou a porta 3000 apenas em redes privadas confiáveis. Essa configuração é para rede local; não exponha o sistema à internet.
+
 Para apresentar o sistema, use `/login` para a tela de autenticação. `/cliente` e `/barbeiro` são as páginas protegidas de cada perfil; sem sessão, redirecionam para `/login` com o perfil correspondente selecionado. Depois do login, o cliente segue para `/cliente` e o barbeiro para `/barbeiro`. As rotas podem ser abertas diretamente ou coladas na barra do navegador.
 
 Na primeira vez, escolha **Sou barbeiro** e crie a conta principal com e-mail e senha de pelo menos 5 caracteres. Depois, use o formulário de cima para entrar. O cliente usa **Sou cliente** para entrar ou criar a própria conta com senha de pelo menos 5 caracteres.

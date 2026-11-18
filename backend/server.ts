@@ -1,5 +1,6 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { readFile } from "node:fs/promises";
+import { networkInterfaces } from "node:os";
 import { extname, relative, resolve, sep } from "node:path";
 import { AppError } from "./errors";
 import { barberSetupRequired, currentUser, login, logout, registerClient, requireRole, setupBarber } from "./auth-service";
@@ -26,6 +27,7 @@ import {
 } from "./validators";
 
 const port = Number(process.env.PORT ?? 3000);
+const host = process.env.HOST ?? "0.0.0.0";
 const projectRoot = resolve(__dirname, "../..");
 const contentTypes: Record<string, string> = {
   ".html": "text/html; charset=utf-8",
@@ -152,8 +154,15 @@ const server = createServer(async (request, response) => {
   }
 });
 
-server.listen(port, "127.0.0.1", () => {
+server.listen(port, host, () => {
   console.log(`Agenda Fácil disponível em http://localhost:${port}`);
+  if (host === "0.0.0.0" || host === "::") {
+    const addresses = Object.values(networkInterfaces())
+      .flatMap((details) => details ?? [])
+      .filter((details) => details.family === "IPv4" && !details.internal)
+      .map((details) => `http://${details.address}:${port}`);
+    addresses.forEach((address) => console.log(`Acesso na rede local: ${address}`));
+  }
 });
 
 function stop() {

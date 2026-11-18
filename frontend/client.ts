@@ -44,6 +44,24 @@ let services: Service[] = [];
 let noticeTimer: number | undefined;
 let selectedAuthRole: UserRole = "client";
 
+function setTheme(theme: "light" | "dark") {
+  document.documentElement.dataset.theme = theme;
+  const button = byId<HTMLButtonElement>("theme-toggle");
+  const darkMode = theme === "dark";
+  button.setAttribute("aria-pressed", String(darkMode));
+  button.setAttribute("aria-label", darkMode ? "Ativar tema claro" : "Ativar tema escuro");
+  button.title = darkMode ? "Ativar tema claro" : "Ativar tema escuro";
+  button.querySelector("span")!.textContent = darkMode ? "☀" : "☾";
+}
+
+const savedTheme = window.localStorage.getItem("agenda-facil-theme");
+setTheme(savedTheme === "dark" ? "dark" : "light");
+byId<HTMLButtonElement>("theme-toggle").addEventListener("click", () => {
+  const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  window.localStorage.setItem("agenda-facil-theme", nextTheme);
+  setTheme(nextTheme);
+});
+
 function pathForRole(role: UserRole): string {
   return role === "barber" ? "/barbeiro" : "/cliente";
 }

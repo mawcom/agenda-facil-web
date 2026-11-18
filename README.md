@@ -19,7 +19,9 @@ Aplicação web acadêmica para organizar a agenda de uma barbearia com um únic
 1. Abra o PowerShell nesta pasta.
 2. Execute `npm install` uma vez.
 3. Execute `npm run dev`.
-4. Acesse http://localhost:3000.
+4. No próprio computador, acesse http://localhost:3000.
+
+O servidor escuta em todas as interfaces de rede (`0.0.0.0`), sem restringir o acesso a `localhost`. Para abrir em outro dispositivo da mesma rede, use um dos endereços `Acesso na rede local` exibidos no terminal, por exemplo `http://192.168.1.20:3000`. Os dispositivos precisam estar conectados à mesma rede. Se o Firewall do Windows bloquear a conexão, permita o Node.js ou a porta 3000 somente em redes privadas confiáveis.
 
 O comando compila o TypeScript e inicia o servidor. O banco é criado automaticamente em `database/agenda-facil.sqlite`; esse arquivo não deve ser enviado ao Git.
 
